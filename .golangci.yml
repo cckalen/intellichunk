@@ -1,0 +1,129 @@
+run:
+  build-tags:
+    - citest
+
+issues:
+  exclude-use-default: false
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - const
+        - dupl
+        - gochecknoglobals
+        - goconst
+        - golint
+        - unparam
+
+linters-settings:
+  gocyclo:
+    min-complexity: 35
+
+  gocognit:
+    # 10-30 is recommended
+    min-complexity: 10 
+
+  lll:
+    line-length: 140
+    tab-width: 2
+
+  godot:
+    scope: toplevel
+    period: true
+    capital: true
+
+  reassign:
+    # never allow reassign of any package variable in another package
+    pattern: '.*'
+
+linters:
+  disable-all: true
+  enable:
+    - bidichk
+    - bodyclose
+    - containedctx
+    - contextcheck
+    - decorder
+    - depguard # needs separate config to actually guard use of packages
+    - dogsled
+    - dupl
+    - dupword
+    - durationcheck
+    - errcheck
+    - errchkjson
+    - errname
+    - errorlint
+    - exportloopref
+    - gocognit
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofmt
+    - goimports
+    - gosec
+    - revive
+    - gosimple
+    - govet
+    - ineffassign
+    - lll
+    - makezero
+    - misspell
+    - nakedret
+    - nilnil
+    - nolintlint
+    - prealloc
+    - predeclared
+    - reassign
+    - staticcheck
+    - tenv
+    - testableexamples
+    - testpackage
+    - thelper
+    - tparallel
+    - typecheck
+    - unconvert
+    - unparam
+    - unused   # was disabled due to out-of-memory issues
+    - wastedassign
+    - whitespace
+    - unparam
+    - stylecheck
+    - godot
+
+  # don't enable:
+  # - cyclop # similar to gocyclop, but also for packages
+  # - decorder # irritating
+  # - execinquery # SQL checker (not needed)
+  # - exhaustive # good, but does not seem to be configurable with ignore comment
+  # - exhaustruct # many libraries not marked up for this linter thus causing false positives for optional fields
+  # - forbidgod # can be turned on if we want to flag certain types of debug and experiment code, requires config1
+  # - funlen
+  # - gochecknoglobals
+  # - gochecknoinits
+  # - godox
+  # - goerr113 # seems to be covered by errorlint
+  # - gofumpt # did not like some of the formatting ideas
+  # - goheader # checks for license in comments (for example)
+  # - gomnd # magic numbers, requires configuration to not be irritating
+  # - goprintffuncname
+  # - grouper # covered by other linters
+  # - importas # turn on if using Kubernetes to make import lint to sanity
+  # - interfacebloat
+  # - ireturn # could be turned on if this becomes a problem
+  # - loggercheck # for loggers we don't use
+  # - maintidx # maintenance index limit (sorry, but docs are in japanese)
+  # - nlreturn # unwanted lint
+  # - noctx
+  # - nonamedreturns # unwanted lint
+  # - nosprintfhostport # too naive and for a special case
+  # - paralleltest # lots of false positives from normal non parallell tests, using tparallell instead
+  # - promlinter # Prometheus specific (turn if using Prometheus)
+  # - revive # coverd by others, turn on  and use if there is a specific revive lint to use
+  # - rowserrcheck # specific for SQL, turn on if SQL is used
+  # - sqlclosecheck # specific to DQL, turn on if SQL is used
+  # - stylecheck # similar to revive (also a replacement of golint)
+  # - tagliatelle # turn on if runnng into issues with style consistency in struct serialization tags
+  # - usestdlibvars # not general purpose
+  # - varnamelen # problem is more if names are bad than if they are too short
+  # - whitespace # covered by others, have autofix though which can be used if wanted
+  # - wrapcheck # well, it isn't enough to do this, so should not be encouraged
+  # - wsl # important formatting already checked by others
