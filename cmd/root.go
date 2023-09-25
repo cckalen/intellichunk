@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/wyrth-io/goapp-template/internal/check"
-	"github.com/wyrth-io/goapp-template/internal/logging"
-
+	"github.com/cckalen/intellichunk/internal/check"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -16,9 +14,9 @@ var cfgFile string
 
 // RootCmd represents the base command when called without any subcommands.
 var RootCmd = &cobra.Command{
-	Use:   "whit",
-	Short: "Whit is a utility for working with wyrth research data",
-	Long: `Whit is a utility for working with wyrth research data
+	Use:   "intellichunk",
+	Short: "intellichunk is a utility for RAG",
+	Long: `intellichunk is a utility for LLM conversation
 
   The --loglevel can be set to one of:
   * info
@@ -31,7 +29,7 @@ var RootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.HelpFunc()(cmd, args)
 	}, PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		logging.SetLevelFromName(Loglevel)
+		//logging.SetLevelFromName(Loglevel)
 	},
 	Args: func(cmd *cobra.Command, args []string) error {
 		if !check.Loglevel(Loglevel) {

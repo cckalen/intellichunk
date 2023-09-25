@@ -1,90 +1,287 @@
-# goapp-template
-A template repository for a skeleton go app with command line handling.
 
-It has a `cmd` package with a `root` (mostly boilerplate) that names your application and defines options for all
-commands (for example logging level).
-There are two commands `hello` which is an umbrella for subcommands. There is `hello_world` which is a subcommand of `hello`.
-Subcommands can be nested to any depth. Files are typically named after the path from the root.
+# Intellichunk AI
 
-The `internal` folder is special to go as the content is considered private to the module/application. Logic you expect to be used by other modules are considered the API of the module, and they should be in top level folders within the module.
+**Retrieval Augmented Generation (RAG) / Go Based Lightweight Langchain Alternative**
 
-The `internal/check` is an example of a simple enumeration check for valid loglevel names.
-The `internal/logging` configures logging based on a loglevel - it is called from the `root` command during initialization.
-The `internal/example` contains a `greet` file with various `Great` functions called from `hello_world` command.
-The `example_test` is a test package that tests the (module internal) API/contract of the example logic. Always put tests in a separate package unless testing cannot be done without access to the implementatation of what is being tested. In that case only put those special test inside the package being tested. (Testlogic will still be dropped from reqular builds).
-The `example_test/greet_test` tests the various `Greet` functions
-The `example_test/testutils_sample_test` shows some simple examples of how to use the `testutils` module.
+⚠️ **Note:** This repository is in developmental phase and has been made public in the hope that it might serve as a helpful starting point for others. There are numerous areas for improvement and addition, so feel free to fork and submit Pull Requests.
 
-== Create your application from the template
+The initial motivation behind Intellichunk was to develop a lightweight langchain alternative that facilitates AI based smart chunking and building a vector database from the Command Line Interface (CLI). Moreover, it aims to harness the Retrieval Augmented Generation (RAG) ability through an API, making it accessible for front-end calls.
 
-To make this into your working go application:
-* Initialize a github repo with the repo of this template, or copy everything over manually.
-* Change the folder name "goapp-template" to the name of your application/package.
-* Also change all import references containing "goapp-template" to the same application name.
-* There are TODO marks where editing needs to be done.
-    * For example changing "myapp" and "Myapp" in strings/text to the wanted name of your application.
-* Add suitable commands for you app by changing the "hello" example in `cmd`, or createing new commands and deleting the hello
-* The example package contain the functionality used by the example hello command line. There are also tests that show bare bones use of testutils package.
-* The `Test_examples_of_testutils` shows basic usage of the testutils
-* The example package can naturally be deleted from your app.
+Although deploying LLMs on their own offers value, their full potential is unlocked when amalgamated with other computational or informational assets. This library is curated to simplify the foundation for developers aiming to construct applications of this nature.
 
-== Running the app
-Run with `go run .` to run the `main` (which is boilerplate and you want to keep in your app). Try running with these additional arguments:
-* hello
-* hello world
-* hello world blah
-* hello world blah blah
+This repository is engineered to integrate conversational chat functionalities by leveraging a vectorstore. Moreover, it furnishes a Command Line Interface (CLI) tailored for Intellichunk, enabling the streamlined processing, vectorization of voluminous textual data, and formulating vector stores from sources. While the CLI deals with sporadic tasks, the API endpoint persistently resides in the cloud for uninterrupted access.
 
-And combine with the flags `-w` (wonderful) and `-u` (upper case).
+ 
+  
+## Features
+- **Initialization Flexibility:** Initialize LLM with various options including Temperature, TopP/Nucleus Sampling, Model Selection, and ChatHistory.
+- **Dynamic Prompt Templating:** Customize and use multiple prompts as per your needs.
+- **Serverless Ready:** Easy to deploy on Google Cloud Run, AWS Lambda, Azure Functions, and other serverless providers.
+- **Versatile Run Environment:** Operate the application both a Command Line Interface (CLI) and an API server.
+- **Tiktoken Tokenizer:** Token counting without making an API call using tiktoken. Choose any encoding. 
+- **Efficient Text Chunking:** Optimize the processing of long documents by breaking them down into meaningful, manageable chunks.
+- **Metadata-rich Chunks:** Each chunk comes with vital metadata, including questions linked to unique entities and keyword generation.
+- **Batch Processing:** Efficiently processes large volumes of textual data and creates vector stores from sources. 
+- **CLI AI Chat:** Initiate and conduct conversations with stored chat history directly via the terminal.
+- **API Capabilities:** Offers API endpoints for direct querying, extracting chunks, embedding, and vectorizing large text inputs.
+- **Clear Documentation:** Provides explicit CLI command instructions, API references, and source file templates.
+- **Environment Configuration:** Leverage `.env` files for convenient and secure management of API keys and related settings.
 
-For example:
-```
-go run . hello world albert -w
-```
 
-== Running Tests
-Tests are run with `go test`, the argument `./...` runs all tests anywhere in the file structure, the `-v` outputs the result of each test, and `-count=1` forces go to build first and not run tests from cached earlier build (which is irritating when you changed a source file and did not do `go run` before running tests, and therefore does not test what you just changed).
+## + Intellichunk
 
-```
-go test ./... -count=1 -v
-?       github.com/wyrth-io/goapp-template      [no test files]
-?       github.com/wyrth-io/goapp-template/cmd  [no test files]
-?       github.com/wyrth-io/goapp-template/internal/check       [no test files]
-=== RUN   Test_Greet_returns_hello_without_name
---- PASS: Test_Greet_returns_hello_without_name (0.00s)
-=== RUN   Test_Greet_returns_hello_with_name_when_given
---- PASS: Test_Greet_returns_hello_with_name_when_given (0.00s)
-=== RUN   Test_GreetUpper_returns_HELLO_without_name
---- PASS: Test_GreetUpper_returns_HELLO_without_name (0.00s)
-=== RUN   Test_GreetUpper_returns_HELLO_with_name_upcased_when_given
---- PASS: Test_GreetUpper_returns_HELLO_with_name_upcased_when_given (0.00s)
-=== RUN   Test_GreetWonderful_returns_hello_world_without_name
---- PASS: Test_GreetWonderful_returns_hello_world_without_name (0.00s)
-=== RUN   Test_GreetWonderful_returns_hello_with_name_when_given
---- PASS: Test_GreetWonderful_returns_hello_with_name_when_given (0.00s)
-=== RUN   Test_GreetWonderfulUpper_returns_HELLO_WORLD_without_name
---- PASS: Test_GreetWonderfulUpper_returns_HELLO_WORLD_without_name (0.00s)
-=== RUN   Test_GreetWorldUpper_returns_hello_with_name_when_given
---- PASS: Test_GreetWorldUpper_returns_hello_with_name_when_given (0.00s)
-=== RUN   Test_examples_of_testutils
---- PASS: Test_examples_of_testutils (0.00s)
-PASS
-ok      github.com/wyrth-io/goapp-template/internal/example     0.333s
-?       github.com/wyrth-io/goapp-template/internal/logging     [no test files]
+This package optimizes text chunking for long factual documents and articles by dividing them into smaller, manageable pieces using LLM. It includes essential metadata with each chunk, such as relevant questions extracted from unique entities, and generates keywords, though they are not vectorized due to low performance within LLM. The metadata supports standard database integration if needed, and the package efficiently performs batch embeddings generation for faster vector generation and data processing.
+
+'
+
+  
+
+'
+
+  
+
+## CLI Commands
+ 
+#### Conversation
+The `conversation` command takes a class name and a query question.
+It starts a conversation with chat history through the terminal.
+```shell
+
+go  run  .  conversation "ClassID"  "Tell me about x"
+
 ```
 
-### Code Quality
-In order for code to be merged it must pass all tests and all configured linting. The linters check both hard and
-stylistic issues. Any reported problem must be fixed before merging.
+##### Example
+```text
+{"message":"Using RUN_ENV=local environment variables","severity":"INFO"}
+LLM: The challenges in addressing public health risks associated with climate change are numerous. Some of the key challenges include: 1. Socioeconomic factors, Age, Marginalized groups
+You: explain #3 a bit
+LLM: Certainly! When we talk about vulnerable populations in the context of climate change and public health, we are referring to groups of people who are disproportionately affected by the health risks associated with climate change. Here are some key points to consider:
+.
+.
+.
+in energy and climate research.
+You: exit
+Exiting the conversation...
+```
 
-**Setup**</br>
-* We build with latest go (currently 1.91) - if you do not have that installed go here  [https://go.dev.dl](https://go.dev.dl)
-* We run lint with `golangci-lint` and you should install it locally so you can check your code. Follow instructions
-  here [https://golangci-lint.run/usage/install/](https://golangci-lint.run/usage/install/)
 
-**Continously, or at least before PR**</br>
-* Run `go test ./... -count=1 -v` and make sure all tests are green / ok.
-* Run `golangci-lint run` which runs linting on the entire project, make sure there are no warning or errors
 
-## Github Actions / workflows
-This template contains github actions workflow to run all tests and configured linters executed by `golangci-lint`. The workflow runs on push and pull requests to the origin repo.
+#### Intellichunk Add
+
+The 'intellichunk add' command takes a class name and the path to a folder containing text files as input.
+
+It iterates over the text files within the folder, reads articles/sources from each file.
+
+This function is useful for batch processing of large text files and storing their context in a structured and accessible format.
+
+path is relative to the project folder.
+
+  
+
+```shell
+
+go  run  .  intellichunk  add  "ClassID"  "/files"
+
+```
+
+  
+
+Sample response in the terminal from this command:
+
+  
+
+```text
+
+:: Analysing... > sourcesCUT.txt
+
+::::: Processing Article... > The economic transformation: What would change in the net-zero transition
+
+--------> Intellichunked into 6 nodes successfully.
+
+--------> Added to the vectorstore. Vector Object IDs: 39082230-871f-462c-a136-09377eef5b26, ...
+
+::::: Processing Article... > Decarbonization and the Benefits of Tackling Climate Change
+
+--------> Intellichunked into 3 nodes successfully.
+
+--------> Added to the vectorstore. Vector Object IDs: 309969ee-a5c0-491c-a390-c4763eb05e2b, ...
+
+:: Analysing... > anotherSource.txt
+
+```
+
+
+
+
+##### Source File Template
+
+The code expects the following format within `.txt` files:
+
+  
+
+```Text
+
+Title:The economic transformation: What would change in the net-zero transition
+
+RefURL:https://www.mckinsey.com/capabilities/sustainability/our-insights/the-economic-transformation-what-would-change-in-the-net-zero-transition
+
+Content:Long long text content...
+
+  
+
+Title:Another article title
+
+RefURL:https://wwwss
+
+Content:Long long text content...
+
+```
+#### Run API
+The `runapi` command starts the api server. It's useful in local environments.
+```shell
+
+go  run  .  runapi
+
+```
+  
+
+## API Reference
+
+  
+
+#### Ask a question about given class/topic.
+
+  
+
+```http
+
+GET /conversation
+
+```
+
+  
+
+| Parameter | Type | Description |
+| :-------- | :------- | :------------------------- |
+| `ConversationID` | `string` | ConversationID on the frontend for back reference. This will be returned. |
+| `ClassID` | `string` | **Required**. Classes are queried on this ID within the vector database. |
+| `ChatHistory` | `array` | Conversation history in string array format. Can be empty. Even indexed strings are the user’s input;  and the odd index strings are the llm response |
+| `Query` | `string` | **Required**. The question |
+
+  
+  
+
+Sample Response:
+
+```
+
+{
+
+"ConversationID": "1fa23fdaa45",
+
+"ClassID": "camp001",
+
+"Query": "How this decarbonizes the economy??",
+
+"Answer": {
+
+"Response": "This Class reduces our reliance on fossil fuels and shift towards cleaner energy sources. This is important because it helps combat climate change by doing XYZ, which is one of the most significant challenges facing our planet.........",
+
+"Sources": ["http://somearticle.com/decarbonization", "http://wikipedia.com/Climate_change"]
+
+},
+
+"Suggestions": ["What steps can we take to decarbonize the economy?", "What are the primary sources of carbon emissions?", "What are the impacts of climate change?"]
+
+}
+
+```
+
+  
+
+#### Split large document into meaningful chunks, embed and vectorize them. Returns ids from vector database.
+
+  
+
+```http
+
+POST /intellichunk/add
+
+```
+
+  
+
+| Parameter | Type | Description |
+| :-------- | :------- | :-------------------------------- |
+| `ClassName` | `string` | **Required**. ClassID / Class Name within vector database. |
+| `LongText` | `string` | **Required**. Large chunk of any text data/document.|
+
+  
+  
+
+  
+  
+
+### Prerequisites
+
+  
+#### .env file
+```file
+OPENAI_API_KEY=sk-f9Lxxxx
+
+WEAVIATE_API_KEY=Fndpxxxxx
+
+WEAVIATE_URL=wfac-bhpx6tjb.weaviate.network
+
+
+#### Sample VSCode launch.json file for debugging
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch intellichunk Add",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}",
+            "args": [
+                "intellichunk",
+                "add",
+                "Class_test",
+                "files/tests/",
+                "-s"
+            ],
+            "env": {},
+            "showLog": true
+        },
+        {
+            "name": "Launch - Conversation",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}",
+            "args": [
+                "conversation"
+            ],
+            "env": {},
+            "showLog": true,
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Launch - API Run",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}",
+            "args": [
+                "runapi"
+            ],
+            "env": {},
+            "showLog": true,
+            "console": "integratedTerminal"
+        }
+    ]
+}
+

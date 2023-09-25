@@ -2,13 +2,22 @@
 package main
 
 import (
-	"github.com/wyrth-io/goapp-template/cmd"
+	"os"
+
+	"github.com/cckalen/intellichunk/api"
+	"github.com/cckalen/intellichunk/cmd"
+	"github.com/cckalen/intellichunk/config"
 )
 
-// main runs the command line interpreter - it has a default function when this application
-// is run without any arguments that will check if there is input on stdin and timeout with
-// a message if that is not the case. If any subcommand is given it will be executed and
-// there will be no check if anything is present on stdin.
+// main runs the command line interpreter
+// it runs the api if it's not in local
 func main() {
-	cmd.Execute()
+	config.LoadEnv()
+
+	if os.Getenv("RUN_ENV") != "local" {
+		api.Run_api()
+	} else {
+		cmd.Execute()
+	}
+
 }
