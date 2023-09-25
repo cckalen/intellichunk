@@ -233,7 +233,7 @@ OPENAI_API_KEY=sk-f9Lxxxx
 WEAVIATE_API_KEY=Fndpxxxxx
 
 WEAVIATE_URL=wfac-bhpx6tjb.weaviate.network
-
+```
 
 #### Sample VSCode launch.json file for debugging
 ```json
@@ -284,4 +284,4 @@ WEAVIATE_URL=wfac-bhpx6tjb.weaviate.network
         }
     ]
 }
-
+```
