@@ -192,7 +192,7 @@ func (o *OpenAI) ChatCompletionFunctionsOptions(ctx context.Context, systemMessa
 		openai.ChatCompletionRequest{
 			Temperature: options.Temperature,
 			TopP:        options.TopP,
-			Model:       o.llmOptions.ModelName,
+			Model:       options.ModelName,
 			Functions:   ConvertToOpenAIFunctionDefinition(funcDetails),
 			Messages:    messages,
 		},
